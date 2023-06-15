@@ -5,13 +5,13 @@ int main(int argc, char *argv[]) {
     pulsar::ClientConfiguration config;
     pulsar::Client client("pulsar://localhost:6650", config);
 
-    pulsar::ProducerConfiguration producerConfig;
-    pulsar::Producer producer = client.createProducer("my-topic", producerConfig);
+    pulsar::Producer producer;
+    pulsar::Result result = client.createProducer("my-topic", producer);
 
     producer.send(pulsar::MessageBuilder().setContent("Hello, Pulsar!").build());
 
-    pulsar::ConsumerConfiguration consumerConfig;
-    pulsar::Consumer consumer = client.subscribe("my-topic", "my-subscription", consumerConfig);
+    pulsar::Consumer consumer;
+    pulsar::Result cResult = client.subscribe("my-topic", "my-subscription", consumer);
 
     pulsar::Message msg;
     consumer.receive(msg);
